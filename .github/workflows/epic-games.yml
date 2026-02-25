@@ -3,19 +3,28 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 18 * * *"
+
 jobs:
   run-claimer:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
       - run: npm install
       - run: npx playwright install firefox --with-deps
+
       - name: Create data directory
         run: mkdir -p data
+
       - name: Save Cookies
-        run: echo '${{ secrets.EG_COOKIES }}' > data/cookies-epic-games.json
+        run: |
+          cat <<EOF > data/cookies-epic-games.json
+          ${{ secrets.EG_COOKIES }}
+          EOF
+
       - name: Run Bot
         run: node epic-games.js
