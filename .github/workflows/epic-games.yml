@@ -2,7 +2,7 @@ name: Epic Games
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 18 * * *" # يشتغل يومياً الساعة 6 مساءً
+    - cron: "0 18 * * *"
 jobs:
   run-claimer:
     runs-on: ubuntu-latest
@@ -13,8 +13,8 @@ jobs:
           node-version: 20
       - run: npm install
       - run: npx playwright install firefox --with-deps
+      - name: Create data directory
+        run: mkdir -p data
+      - name: Save Cookies
+        run: echo '${{ secrets.EG_COOKIES }}' > data/cookies-epic-games.json
       - run: node epic-games.js
-        env:
-          EG_EMAIL: ${{ secrets.EG_EMAIL }}
-          EG_PASSWORD: ${{ secrets.EG_PASSWORD }}
-          EG_OTPKEY: ${{ secrets.EG_OTPKEY }}
