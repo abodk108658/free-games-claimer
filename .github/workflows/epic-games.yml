@@ -17,4 +17,5 @@ jobs:
         run: mkdir -p data
       - name: Save Cookies
         run: echo '${{ secrets.EG_COOKIES }}' > data/cookies-epic-games.json
-      - run: node epic-games.js
+      - name: Run Bot
+        run: node epic-games.js
